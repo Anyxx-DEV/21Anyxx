@@ -39,11 +39,11 @@
           <div class="panel__header">
             <div>
               <div class="panel__title">Tickets</div>
-              <div class="panel__subtitle" id="ticketCount">—</div>
+              <div class="panel__subtitle">5 Tickets</div>
             </div>
             <div class="panel__actions">
-              <button class="btn btn--secondary" type="button" id="resetFilters">Zurücksetzen</button>
-              <button class="btn btn--primary" type="button" id="openCreate">Neues Ticket</button>
+              <button class="btn btn--secondary" type="button">Zurücksetzen</button>
+              <button class="btn btn--primary" type="button">Neues Ticket</button>
             </div>
           </div>
 
@@ -100,7 +100,53 @@
                   <th scope="col">Aktualisiert</th>
                 </tr>
               </thead>
-              <tbody id="ticketRows"></tbody>
+              <tbody>
+                <tr>
+                  <td>TCK-1042</td>
+                  <td><a class="rowLink" href="#">Login fehlgeschlagen nach Passwort-Reset</a></td>
+                  <td>Meyer GmbH</td>
+                  <td>P1</td>
+                  <td><span class="badge badge--error">Offen</span></td>
+                  <td>Support L1</td>
+                  <td>16.12.2025 09:42</td>
+                </tr>
+                <tr>
+                  <td>TCK-1041</td>
+                  <td><a class="rowLink" href="#">Rechnungs-PDF wird leer erzeugt</a></td>
+                  <td>Nordlicht AG</td>
+                  <td>P2</td>
+                  <td><span class="badge badge--warning">In Bearbeitung</span></td>
+                  <td>Backoffice</td>
+                  <td>16.12.2025 08:10</td>
+                </tr>
+                <tr>
+                  <td>TCK-1039</td>
+                  <td><a class="rowLink" href="#">Feature-Anfrage: CSV-Export mit zusätzlicher Spalte</a></td>
+                  <td>Kaufmann KG</td>
+                  <td>P4</td>
+                  <td><span class="badge badge--warning">Wartet</span></td>
+                  <td>Produkt</td>
+                  <td>15.12.2025 16:02</td>
+                </tr>
+                <tr>
+                  <td>TCK-1035</td>
+                  <td><a class="rowLink" href="#">Antwortzeiten in der UI sporadisch hoch</a></td>
+                  <td>Stadtwerke Süd</td>
+                  <td>P2</td>
+                  <td><span class="badge badge--success">Gelöst</span></td>
+                  <td>SRE</td>
+                  <td>14.12.2025 11:26</td>
+                </tr>
+                <tr>
+                  <td>TCK-1028</td>
+                  <td><a class="rowLink" href="#">Account schließen</a></td>
+                  <td>Beispielkunde</td>
+                  <td>P3</td>
+                  <td><span class="badge badge--inactive">Geschlossen</span></td>
+                  <td>Support L1</td>
+                  <td>02.12.2025 10:04</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -108,52 +154,50 @@
         <aside class="panel" aria-label="Ticketdetails">
           <div class="panel__header panel__header--tight">
             <div>
-              <div class="panel__title" id="detailTitle">Details</div>
-              <div class="panel__subtitle" id="detailSub">Wähle ein Ticket aus der Liste.</div>
+              <div class="panel__title">TCK-1042: Login fehlgeschlagen nach Passwort-Reset</div>
+              <div class="panel__subtitle">Ticket-Übersicht</div>
             </div>
           </div>
 
-          <div class="emptyState" id="detailEmpty">Kein Ticket ausgewählt.</div>
-
-          <div id="detailBody" class="detail" hidden>
+          <div class="detail">
             <dl class="deflist">
               <div class="defrow">
                 <dt>Status</dt>
-                <dd><span id="detailStatus" class="badge"></span></dd>
+                <dd><span class="badge badge--error">Offen</span></dd>
               </div>
               <div class="defrow">
                 <dt>Priorität</dt>
-                <dd><span id="detailPriority"></span></dd>
+                <dd><span>P1</span></dd>
               </div>
               <div class="defrow">
                 <dt>Owner</dt>
-                <dd><span id="detailOwner"></span></dd>
+                <dd><span>Support L1</span></dd>
               </div>
               <div class="defrow">
                 <dt>Kunde</dt>
-                <dd><span id="detailCustomer"></span></dd>
+                <dd><span>Meyer GmbH</span></dd>
               </div>
               <div class="defrow">
                 <dt>Erstellt</dt>
-                <dd><span id="detailCreated"></span></dd>
+                <dd><span>15.12.2025 09:12</span></dd>
               </div>
               <div class="defrow">
                 <dt>Aktualisiert</dt>
-                <dd><span id="detailUpdated"></span></dd>
+                <dd><span>16.12.2025 09:42</span></dd>
               </div>
               <div class="defrow">
                 <dt>SLA</dt>
-                <dd><span id="detailSla"></span></dd>
+                <dd><span>4h Erstreaktion</span></dd>
               </div>
               <div class="defrow">
                 <dt>Tags</dt>
-                <dd><span id="detailTags"></span></dd>
+                <dd><span>auth, prod</span></dd>
               </div>
             </dl>
 
             <div class="detail__section">
               <div class="detail__heading">Beschreibung</div>
-              <div class="detail__text" id="detailDescription"></div>
+              <div class="detail__text">Mehrere Benutzer erhalten nach Passwort-Reset weiterhin „Ungültige Anmeldedaten“. Bitte Logs prüfen.</div>
             </div>
 
             <div class="detail__section">
@@ -161,21 +205,21 @@
               <div class="actionsGrid">
                 <label class="field">
                   <span class="field__label">Status ändern</span>
-                  <select class="input" id="detailStatusSelect">
-                    <option value="open">Offen</option>
-                    <option value="in_progress">In Bearbeitung</option>
-                    <option value="waiting">Wartet</option>
-                    <option value="resolved">Gelöst</option>
-                    <option value="closed">Geschlossen</option>
+                  <select class="input">
+                    <option selected>Offen</option>
+                    <option>In Bearbeitung</option>
+                    <option>Wartet</option>
+                    <option>Gelöst</option>
+                    <option>Geschlossen</option>
                   </select>
                 </label>
                 <label class="field">
                   <span class="field__label">Owner</span>
-                  <input class="input" id="detailOwnerInput" type="text" placeholder="z.B. Team Support" />
+                  <input class="input" type="text" value="Support L1" />
                 </label>
                 <div class="actionsGrid__buttons">
-                  <button class="btn btn--secondary" type="button" id="copyLink">Link kopieren</button>
-                  <button class="btn btn--primary" type="button" id="saveDetail">Speichern</button>
+                  <button class="btn btn--secondary" type="button">Link kopieren</button>
+                  <button class="btn btn--primary" type="button">Speichern</button>
                 </div>
               </div>
             </div>
@@ -184,30 +228,30 @@
       </section>
     </main>
 
-    <div class="modalOverlay" id="createOverlay" hidden>
+    <div class="modalOverlay" hidden>
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="createTitle">
         <div class="modal__header">
           <div class="modal__title" id="createTitle">Neues Ticket</div>
-          <button class="iconBtn iconBtn--dark" type="button" id="closeCreate" aria-label="Schließen">
+          <button class="iconBtn iconBtn--dark" type="button" aria-label="Schließen">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18.3 5.7a1 1 0 0 0-1.4 0L12 10.6 7.1 5.7A1 1 0 0 0 5.7 7.1l4.9 4.9-4.9 4.9a1 1 0 1 0 1.4 1.4l4.9-4.9 4.9 4.9a1 1 0 0 0 1.4-1.4l-4.9-4.9 4.9-4.9a1 1 0 0 0 0-1.4Z" />
             </svg>
           </button>
         </div>
 
-        <form class="modal__body" id="createForm">
+        <form class="modal__body">
           <div class="formGrid">
             <label class="field">
               <span class="field__label">Titel</span>
-              <input class="input" id="newTitle" required type="text" maxlength="120" />
+              <input class="input" required type="text" maxlength="120" />
             </label>
             <label class="field">
               <span class="field__label">Kunde</span>
-              <input class="input" id="newCustomer" required type="text" maxlength="80" />
+              <input class="input" required type="text" maxlength="80" />
             </label>
             <label class="field">
               <span class="field__label">Priorität</span>
-              <select class="input" id="newPriority">
+              <select class="input">
                 <option value="p2">P2</option>
                 <option value="p1">P1</option>
                 <option value="p3">P3</option>
@@ -216,7 +260,7 @@
             </label>
             <label class="field">
               <span class="field__label">Status</span>
-              <select class="input" id="newStatus">
+              <select class="input">
                 <option value="open">Offen</option>
                 <option value="in_progress">In Bearbeitung</option>
                 <option value="waiting">Wartet</option>
@@ -224,18 +268,16 @@
             </label>
             <label class="field field--full">
               <span class="field__label">Beschreibung</span>
-              <textarea class="input textarea" id="newDescription" rows="5" maxlength="1200" placeholder="Kurze Beschreibung…"></textarea>
+              <textarea class="input textarea" rows="5" maxlength="1200" placeholder="Kurze Beschreibung…"></textarea>
             </label>
           </div>
 
           <div class="modal__footer">
-            <button class="btn btn--secondary" type="button" id="cancelCreate">Abbrechen</button>
+            <button class="btn btn--secondary" type="button">Abbrechen</button>
             <button class="btn btn--primary" type="submit">Ticket anlegen</button>
           </div>
         </form>
       </div>
     </div>
-
-    <script src="./app.js"></script>
   </body>
 </html>
