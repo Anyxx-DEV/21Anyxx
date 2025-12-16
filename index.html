@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ticket-System</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar" role="banner">
+      <div class="topbar__left">
+        <span class="topbar__brand">Ticket-System</span>
+        <nav class="topbar__nav" aria-label="Hauptnavigation">
+          <a class="topbar__link" href="#" aria-current="page">Tickets</a>
+          <a class="topbar__link" href="#">Warteschlangen</a>
+          <a class="topbar__link" href="#">Berichte</a>
+        </nav>
+      </div>
+      <div class="topbar__right">
+        <button class="iconBtn" type="button" aria-label="Benachrichtigungen">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 22a2.2 2.2 0 0 0 2-2h-4a2.2 2.2 0 0 0 2 2Zm7-6V11a7 7 0 0 0-5-6.7V3a2 2 0 1 0-4 0v1.3A7 7 0 0 0 5 11v5l-2 2v1h20v-1l-2-2Z" />
+          </svg>
+        </button>
+        <button class="iconBtn" type="button" aria-label="Einstellungen">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19.14 12.94c.04-.3.06-.6.06-.94s-.02-.64-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.3 7.3 0 0 0-1.63-.94l-.36-2.54A.5.5 0 0 0 13.9 1h-3.8a.5.5 0 0 0-.5.42l-.36 2.54c-.58.23-1.12.54-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.7 7.48a.5.5 0 0 0 .12.64l2.03 1.58c-.04.3-.06.6-.06.94s.02.64.06.94L2.82 14.5a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.3.6.22l2.39-.96c.51.4 1.05.71 1.63.94l.36 2.54c.04.24.25.42.5.42h3.8c.25 0 .46-.18.5-.42l.36-2.54c.58-.23 1.12-.54 1.63-.94l2.39.96c.21.08.47 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.56ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z" />
+          </svg>
+        </button>
+        <div class="topbar__user" aria-label="Aktiver Benutzer">
+          <span class="topbar__userName">A. Muster</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="app" role="main">
+      <section class="layout">
+        <div class="panel" aria-label="Ticketliste">
+          <div class="panel__header">
+            <div>
+              <div class="panel__title">Tickets</div>
+              <div class="panel__subtitle" id="ticketCount">—</div>
+            </div>
+            <div class="panel__actions">
+              <button class="btn btn--secondary" type="button" id="resetFilters">Zurücksetzen</button>
+              <button class="btn btn--primary" type="button" id="openCreate">Neues Ticket</button>
+            </div>
+          </div>
+
+          <div class="filters" aria-label="Filter">
+            <label class="field">
+              <span class="field__label">Suche</span>
+              <input class="input" id="q" type="text" placeholder="ID, Titel, Kunde…" autocomplete="off" />
+            </label>
+
+            <label class="field">
+              <span class="field__label">Status</span>
+              <select class="input" id="statusFilter">
+                <option value="">Alle</option>
+                <option value="open">Offen</option>
+                <option value="in_progress">In Bearbeitung</option>
+                <option value="waiting">Wartet</option>
+                <option value="resolved">Gelöst</option>
+                <option value="closed">Geschlossen</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Priorität</span>
+              <select class="input" id="priorityFilter">
+                <option value="">Alle</option>
+                <option value="p1">P1</option>
+                <option value="p2">P2</option>
+                <option value="p3">P3</option>
+                <option value="p4">P4</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Sortierung</span>
+              <select class="input" id="sortBy">
+                <option value="updated_desc">Aktualisiert (neu → alt)</option>
+                <option value="updated_asc">Aktualisiert (alt → neu)</option>
+                <option value="priority_desc">Priorität (hoch → niedrig)</option>
+                <option value="priority_asc">Priorität (niedrig → hoch)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="tableWrap" role="region" aria-label="Ticket-Tabelle" tabindex="0">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Titel</th>
+                  <th scope="col">Kunde</th>
+                  <th scope="col">Prio</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Aktualisiert</th>
+                </tr>
+              </thead>
+              <tbody id="ticketRows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <aside class="panel" aria-label="Ticketdetails">
+          <div class="panel__header panel__header--tight">
+            <div>
+              <div class="panel__title" id="detailTitle">Details</div>
+              <div class="panel__subtitle" id="detailSub">Wähle ein Ticket aus der Liste.</div>
+            </div>
+          </div>
+
+          <div class="emptyState" id="detailEmpty">Kein Ticket ausgewählt.</div>
+
+          <div id="detailBody" class="detail" hidden>
+            <dl class="deflist">
+              <div class="defrow">
+                <dt>Status</dt>
+                <dd><span id="detailStatus" class="badge"></span></dd>
+              </div>
+              <div class="defrow">
+                <dt>Priorität</dt>
+                <dd><span id="detailPriority"></span></dd>
+              </div>
+              <div class="defrow">
+                <dt>Owner</dt>
+                <dd><span id="detailOwner"></span></dd>
+              </div>
+              <div class="defrow">
+                <dt>Kunde</dt>
+                <dd><span id="detailCustomer"></span></dd>
+              </div>
+              <div class="defrow">
+                <dt>Erstellt</dt>
+                <dd><span id="detailCreated"></span></dd>
+              </div>
+              <div class="defrow">
+                <dt>Aktualisiert</dt>
+                <dd><span id="detailUpdated"></span></dd>
+              </div>
+              <div class="defrow">
+                <dt>SLA</dt>
+                <dd><span id="detailSla"></span></dd>
+              </div>
+              <div class="defrow">
+                <dt>Tags</dt>
+                <dd><span id="detailTags"></span></dd>
+              </div>
+            </dl>
+
+            <div class="detail__section">
+              <div class="detail__heading">Beschreibung</div>
+              <div class="detail__text" id="detailDescription"></div>
+            </div>
+
+            <div class="detail__section">
+              <div class="detail__heading">Aktionen</div>
+              <div class="actionsGrid">
+                <label class="field">
+                  <span class="field__label">Status ändern</span>
+                  <select class="input" id="detailStatusSelect">
+                    <option value="open">Offen</option>
+                    <option value="in_progress">In Bearbeitung</option>
+                    <option value="waiting">Wartet</option>
+                    <option value="resolved">Gelöst</option>
+                    <option value="closed">Geschlossen</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span class="field__label">Owner</span>
+                  <input class="input" id="detailOwnerInput" type="text" placeholder="z.B. Team Support" />
+                </label>
+                <div class="actionsGrid__buttons">
+                  <button class="btn btn--secondary" type="button" id="copyLink">Link kopieren</button>
+                  <button class="btn btn--primary" type="button" id="saveDetail">Speichern</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <div class="modalOverlay" id="createOverlay" hidden>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="createTitle">
+        <div class="modal__header">
+          <div class="modal__title" id="createTitle">Neues Ticket</div>
+          <button class="iconBtn iconBtn--dark" type="button" id="closeCreate" aria-label="Schließen">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.3 5.7a1 1 0 0 0-1.4 0L12 10.6 7.1 5.7A1 1 0 0 0 5.7 7.1l4.9 4.9-4.9 4.9a1 1 0 1 0 1.4 1.4l4.9-4.9 4.9 4.9a1 1 0 0 0 1.4-1.4l-4.9-4.9 4.9-4.9a1 1 0 0 0 0-1.4Z" />
+            </svg>
+          </button>
+        </div>
+
+        <form class="modal__body" id="createForm">
+          <div class="formGrid">
+            <label class="field">
+              <span class="field__label">Titel</span>
+              <input class="input" id="newTitle" required type="text" maxlength="120" />
+            </label>
+            <label class="field">
+              <span class="field__label">Kunde</span>
+              <input class="input" id="newCustomer" required type="text" maxlength="80" />
+            </label>
+            <label class="field">
+              <span class="field__label">Priorität</span>
+              <select class="input" id="newPriority">
+                <option value="p2">P2</option>
+                <option value="p1">P1</option>
+                <option value="p3">P3</option>
+                <option value="p4">P4</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field__label">Status</span>
+              <select class="input" id="newStatus">
+                <option value="open">Offen</option>
+                <option value="in_progress">In Bearbeitung</option>
+                <option value="waiting">Wartet</option>
+              </select>
+            </label>
+            <label class="field field--full">
+              <span class="field__label">Beschreibung</span>
+              <textarea class="input textarea" id="newDescription" rows="5" maxlength="1200" placeholder="Kurze Beschreibung…"></textarea>
+            </label>
+          </div>
+
+          <div class="modal__footer">
+            <button class="btn btn--secondary" type="button" id="cancelCreate">Abbrechen</button>
+            <button class="btn btn--primary" type="submit">Ticket anlegen</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
